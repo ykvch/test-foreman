@@ -1,2 +1,2 @@
-# test-foreman
-Orchestrate test runs between multiple workers
+# Test Foreman
+Orchestrates test runs on multiple workers
