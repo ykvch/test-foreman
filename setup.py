@@ -24,8 +24,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Topic :: Software Development :: Testing",
-    ]
-
+    ],
     entry_points={
         "pytest11": ["foreman = testforeman.plugin"],
         "console_scripts": ["testforeman = testforeman.server:main"],
