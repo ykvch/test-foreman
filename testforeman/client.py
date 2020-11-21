@@ -5,10 +5,10 @@ import socket
 
 class Client:
 
-	def __init__(self, addr):
-		self.sock, self.addr = None, addr
+    def __init__(self, addr):
+        self.sock, self.addr = None, addr
 
-	def say(self, message):
+    def say(self, message):
         if not self.sock:
             self.sock = socket.socket()
             self.sock.settimeout(8)
@@ -34,7 +34,7 @@ class Client:
 
     def take(self, name):
         resp = self.say(f"take {name}")
-        resp_name, taken = head[:-2], head[-1]
+        resp_name, taken = resp[:-2], resp[-1]
         assert name == resp_name, "Take name mismatch"
         return int(taken) == 0
 

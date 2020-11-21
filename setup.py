@@ -2,7 +2,7 @@
 from setuptools import setup
 
 
-__version__ = '0.0.1'
+__version__ = '0.0.9'
 
 
 setup(
@@ -15,13 +15,12 @@ setup(
     author="Yan Kevych",
     license="BSD 2-clause",
     packages=["testforeman"],
-    python_requires=">=2.7.11",
+    python_requires=">=3.1",
     url="https://github.com/ykvch/testforeman",
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Topic :: Software Development :: Testing",
     ],
