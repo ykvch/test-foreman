@@ -1,11 +1,11 @@
-name: Build package and publish to PyPI
+name: CI
 on:
   release:
     types: [published]
 
 jobs:
-  build-n-publish:
-    name: Build and publish to PyPI
+  build:
+    name: Build package
     runs-on: ubuntu-18.04
     
     steps:
@@ -31,3 +31,6 @@ jobs:
         --wheel
         --outdir dist/
         .
+
+  publish:
+    name: Publish to PyPI
