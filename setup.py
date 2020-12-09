@@ -17,6 +17,7 @@ setup(
     packages=["testforeman"],
     python_requires=">=3.1",
     url="https://github.com/ykvch/testforeman",
+    extras_require={"pytest": ["pytest"], "nose": ["nose"]},
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
@@ -25,7 +26,7 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     entry_points={
-        "pytest11": ["foreman = testforeman.plugin"],
+        "pytest11": ["foreman = testforeman.pytest_plugin"],
         "console_scripts": ["testforeman = testforeman.server:main"],
     }
 )
