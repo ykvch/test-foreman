@@ -1,12 +1,9 @@
-import sys
 import socket
 import asyncore
 import logging
 import fnmatch
 
 LOG = logging.getLogger('testforeman')
-logging.basicConfig(
-    format='%(asctime)s:%(levelname)s:%(name)s: %(message)s', level='DEBUG')
 
 
 class ForemanHandler(asyncore.dispatcher_with_send):
@@ -47,7 +44,7 @@ class ForemanHandler(asyncore.dispatcher_with_send):
         taken_already = any(item in r for r in list(self.master.taken.values()))
         if not taken_already:
             node.add(item)
-        self.send('{0} {1:d}\n'.format(item, taken_already).encode())
+        self.send('{0} {1:d}\n\n'.format(item, taken_already).encode())
         LOG.info('{0}: {1} {2}'.format(self.addr, item,
                                        'already taken' if taken_already else 'OK'))
 
@@ -63,11 +60,13 @@ class ForemanHandler(asyncore.dispatcher_with_send):
         self.send(b'\n')
 
     def rm(self, pattern=''):
-        k, v = list(self.master.taken.keys()), list(self.master.taken.values())
-        rm_list = [fnmatch.filter(i, pattern) for i in v]
-        for r, k, v in zip(rm_list, k, v):
+        taken_nodes = list(self.master.taken.keys())
+        taken_lists = list(self.master.taken.values())
+        rm_lists = [fnmatch.filter(i, pattern) for i in taken_lists]
+        for r, k, v in zip(rm_lists, taken_nodes, taken_lists):
             self.master.taken[k] = v.difference(r)
-        self.send('{0}\n'.format(sum(len(x) for x in rm_list)).encode())
+        self.send('{0}\n'.format(sum(len(x) for x in rm_lists)).encode())
+        self.send(b'\n')
 
     def nodes(self):
         for k, v in list(self.master.taken.items()):
@@ -105,8 +104,20 @@ class ForemanServer(asyncore.dispatcher):
 
 
 def main():
-    args = dict(zip(('progname', 'host', 'port'), sys.argv))
-    ForemanServer(args.get('host', 'localhost'), int(args.get('port', 8888)))
+    logging.basicConfig(
+        format='%(asctime)s:%(levelname)s:%(name)s: %(message)s',
+        level='DEBUG')
+
+    import argparse
+    p = argparse.ArgumentParser()
+    p.add_argument("-i", dest="host", help="IP or hostname to listen on",
+                   default="localhost")
+    p.add_argument("-p", dest="port", type=int, help="Port to listen on",
+                   default=8888)
+    args = p.parse_args()
+
+    ForemanServer(args.host, args.port)
+    LOG.info(f"Listening on {args.host}:{args.port}")
     asyncore.loop()
 
 

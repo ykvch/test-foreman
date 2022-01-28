@@ -45,10 +45,10 @@ class Client:
     def take(self, name):
         """
         Ask foreman-server permission to take `name`.
-        
+
         Args:
             name (str): resource name to claim
-        
+
         Returns:
             bool: True - take is successful. False - name already taken.
 
