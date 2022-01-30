@@ -12,7 +12,7 @@ def pytest_addoption(parser):
                     dest="foreman", help="Run as testforeman client")
     group.addoption("--foreman-addr", dest="foreman_addr",
                     metavar="host:port", default=os.environ.get(
-                        "FOREMAN_ADDR", "localhost:7777"),
+                        "FOREMAN_ADDR", "localhost:7788"),
                     help="Foreman server to sync with")
 
 
@@ -22,6 +22,7 @@ class ForemanPlugin:
     """Simple plugin to sync test workers with server"""
 
     def __init__(self, config):
+        # TODO: handle IPv6 nicely
         host, port = config.option.foreman_addr.rsplit(":", 1)
         port = int(port)
         self.client = Client((host, port))

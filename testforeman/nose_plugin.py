@@ -39,17 +39,17 @@ class ForemanClient(Plugin):
     def options(self, parser, env):
         super(ForemanClient, self).options(parser, env)
         parser.add_option('--foreman-server',
-                          default=env.get('REGISTRY_SERVER', 'localhost:8888'),
+                          default=env.get('FOREMAN_ADDR', 'localhost:7788'),
                           dest='foreman_server',
                           metavar='host:port',
                           help='Running foreman server network address')
         parser.add_option('--foreman-match',
-                          default=env.get('REGISTRY_FNMATCH', 'test*'),
+                          default=env.get('FOREMAN_FNMATCH', 'test*'),
                           dest='foreman_fnmatch',
                           metavar='pattern',
                           help='Pattern to match for test-containing modules')
         parser.add_option('--foreman-ignore',
-                          default=env.get('REGISTRY_FNIGNORE', ''),
+                          default=env.get('FOREMAN_FNIGNORE', ''),
                           dest='foreman_fnignore',
                           metavar='pattern',
                           help='Pattern to ignore for test-containing modules')

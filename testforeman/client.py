@@ -47,20 +47,19 @@ class Client:
         Ask foreman-server permission to take `name`.
 
         Args:
-            name (str): resource name to claim
+            name (str): item (test) name to try taking
 
         Returns:
             bool: True - take is successful. False - name already taken.
 
-        If foreman responds `name 0` -- noone's been asking it yet. We take it.
-        Otherwise foreman says `name 1` -- it's been claimed before. Take fails.
+        If foreman responds `name 1` -- noone's been asking it yet. We take it.
+        Otherwise foreman says `name 0` -- it's been claimed before. Take fails.
         """
         resp = self.say(f"take {name}")
         # Response comes in format: `{name} <zero or one>`
-        resp_name, taken = resp[:-2], resp[-1]
+        resp_name, success = resp[:-2], resp[-1]
         assert name == resp_name, "Take name mismatch"
-        # Zero means: noone else claimed {name} yet, take is successful.
-        return int(taken) == 0
+        return success == "1"
 
     def stop_foreman(self):
         self.say("thank you")
