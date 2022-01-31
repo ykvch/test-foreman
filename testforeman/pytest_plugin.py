@@ -31,7 +31,9 @@ class ForemanPlugin:
         self.client.close()
 
     def pytest_runtest_protocol(self, item, nextitem):
-        # Anything except None would skip the test
+        """Ask polietly if we can run the test"""
+        # None -> we are allowed to take this for ourselves
+        # everything else -> skip and move on to the next item
         return None if self.client.take(item.name) else False
 
 
